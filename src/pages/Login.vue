@@ -14,8 +14,8 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="ruleForm.username"></el-input>
+          <el-form-item label="用户名" prop="userId">
+            <el-input v-model="ruleForm.userId"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input v-model="ruleForm.password"></el-input>
@@ -28,7 +28,7 @@
       </el-main>
     </el-container>
   </div>
-  
+
   <!-- 气泡li -->
   <ul>
     <li></li>
@@ -50,11 +50,11 @@ export default {
   data () {
     return {
       ruleForm: {
-        username: 'lwt',
-        password: 'lwt'
+        userId: 'G112233401',
+        password: 'gly12301'
       },
       rules: {
-        username: [
+        userId: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
           { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
         ],
@@ -69,10 +69,13 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const _that = this
+          /* this.$axios.post('http://localhost:8080/DormSystem/user/login', {'userId': this.ruleForm.userId, 'password': this.ruleForm.password}, {headers: {
+            'Content-Type': 'application/json;charset=UTF-8'}}).then(res => {  */
           this.$axios.post('http://localhost:8080/DormSystem/user/login', this.$qs.stringify(this.ruleForm)).then(res => {
             /* 模拟服务器响应 */
             if (res.data.code === 200) {
               console.log(res.data.data)
+              sessionStorage.setItem('userId', res.data.data.userId)
               _that.$router.push('/index')
             } else {
               console.log(res.data.msg)

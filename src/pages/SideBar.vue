@@ -61,10 +61,18 @@ export default {
       activePath: ''
     }
   },
-  mounted: function () {
+  methods: {
+    handleSelect (key, keyPath) {
+      console.log(key, keyPath)
+    }
+  },
+  /* mounted() { */
+  mounted: function () {                
     const _this = this
     /* 端口号需要改变  */
-    this.$axios.post('http://localhost:8080/DormSystem/menu/showAllMenu', this.$qs.stringify(this.ruleForm)).then(res => {
+    /* this.$axios.get('http://localhost:8080/DormSystem/menu/getRoleMenu?userId=' + sessionStorage.getItem('userId')).then(res => { */
+    /* this.$axios.post('http://localhost:8080/DormSystem/menu/showAllMenu', this.$qs.stringify(this.ruleForm)).then(res => { */
+    this.$axios.post('http://localhost:8080/DormSystem/menu/getRoleMenu?userId=' + sessionStorage.getItem('userId')).then(res => {
       /* 模拟服务器响应 */
       if (res.data.code === 200) {
         console.log(res.data.data)
@@ -76,3 +84,5 @@ export default {
   }
 }
 </script>
+<style scoped>
+</style>

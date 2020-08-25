@@ -34,6 +34,11 @@
       label="电话"
       width="180">
     </el-table-column>
+    <el-table-column>
+      <el-button type="primary" icon="el-icon-edit">修改</el-button>
+      <el-button type="primary" icon="el-icon-circle-plus-outline">添加</el-button>
+      <el-button type="primary" icon="el-icon-delete">删除</el-button>
+    </el-table-column>
   </el-table>
 </template>
 
@@ -67,4 +72,5 @@ export default {
   }
 }
 </script>
-
+<style scoped>
+</style>
