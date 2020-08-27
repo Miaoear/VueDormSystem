@@ -11,19 +11,10 @@
 
         <template v-for="item in Data">
             <el-submenu v-if="item.childMenus && item.childMenus.length > 0" :index="item.menuid" :key="item.menuid">
-
               <template slot="title">
                 <i :class="item.icon"></i>
                 <span slot="title">{{ item.name }}</span>  
-
-               <!--   <el-submenu v-if="item.subs" :index="item.index" :key="item.index">
-                  <template slot="title">{{ item.name }}</template>
-                </el-submenu>
-                <el-menu-item v-else :index="item.url" :key="item.url">
-                  {{ item.name }}
-                </el-menu-item>-->
               </template> 
-
 
               <template v-for="subItem in item.childMenus">
 
