@@ -1,5 +1,6 @@
 <template>
 <div>
+  <el-card class="box-card">
   <el-table
     :data="Data.slice((currentPage-1)*PageSize,currentPage*PageSize)"
     border
@@ -49,13 +50,14 @@
     <el-table-column>
       <template slot-scope="scope">
         <el-button-group>
-          <el-button type="primary" @click="updataIcon(scope.$index, scope.row)" icon="el-icon-edit" ></el-button>
+          <el-button type="primary" @click="editStu(scope.row)" icon="el-icon-edit" ></el-button>
           <el-button type="primary" icon="el-icon-circle-plus-outline" ></el-button>
           <el-button type="danger" @click="deleteIcon(scope.$index, scope.row)" icon="el-icon-delete" ></el-button>
         </el-button-group>
       </template>
     </el-table-column>
   </el-table>
+  </el-card>
   <div class="tabListPage">
     <el-pagination @size-change="handleSizeChange" 
                   @current-change="handleCurrentChange" 
@@ -66,18 +68,52 @@
       </el-pagination>    
   </div>
 
-
+  <el-dialog
+    :title="addFlag?'新增学生列表':'修改学生列表'"
+    style="text-align:left !important"
+    :visible.sync="dialogVisible"
+    :before-close="handleClose"
+    >
+      <el-form ref="form" :model="datalist" label-width="80px">
+        <el-form-item label="学生ID" style="width:300px">
+          <el-input v-model="datalist.userId" :disabled="true" placeholder="请输入学号"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名" style="width:280px">
+          <el-input v-model="datalist.username" placeholder="请输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" style="width:230px">
+          <el-input v-model="datalist.password" placeholder="请输入密码"></el-input>
+        </el-form-item>
+        <el-form-item label="性别" style="width:190px">
+          <el-input v-model="datalist.sex" placeholder="请输入性别"></el-input>
+        </el-form-item>
+        <el-form-item label="宿舍号" style="width:190px">
+          <el-input v-model="datalist.dorno" placeholder="请输入宿舍号"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" style="width:190px">
+          <el-input v-model="datalist.phone" placeholder="请输入电话号码"></el-input>
+        </el-form-item>
+      </el-form>
+      
+      <span slot="footer" class="dialog-footer">
+        <el-button type="success" @click="updateStu()">提交</el-button>
+        <el-button type="primary" @click="dialogVisible = false">取消</el-button>
+      </span>
+    </el-dialog>
 
 
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import qs from 'qs'
 export default {
   data () {
     return {
       input: '',
       Data: [],
+      datalist: {},
       // 默认显示第几页
       currentPage: 1,
       // 总条数，根据接口获取数据长度(注意：这里不能为空)
@@ -85,7 +121,11 @@ export default {
       // 个数选择器（可修改）
       pageSizes: [3, 4, 5],
       // 默认每页显示的条数（可修改）
-      PageSize: 3
+      PageSize: 3,
+
+      dialogVisible: false,
+      addFlag: true
+
     }
   },
   mounted: function () {
@@ -103,6 +143,7 @@ export default {
     })
   },
   methods: {
+
     // 分页
     // 每页显示的条数
     handleSizeChange (val) {
@@ -118,37 +159,43 @@ export default {
     },
 
 
-    /* 修改操作 */
-    updataIcon (index, row) {
-      console.log(row)
-      this.$confirm('', '修改', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const _that = this
-        /* 端口号需要改变  */
-        this.$axios.post('http://localhost:8080/DormSystem/user/updateStu' + row.userId).then(res => {
-          /* 模拟服务器响应 */
-          if (res.data.code === 200) {
-            console.log(res.data.data)
-            this.Data.splice(index, 1)
-          } else {
-            console.log(res.data.msg)
-          }
-        })
-
-        this.$message({
-          type: 'success',
-          message: '修改成功!'
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消修改'
-        })
-      })
+    handleClose (done) {
+      done()
     },
+    editStu (row) {
+      this.datalist = row
+      this.dialogVisible = true
+      this.addFlag = false
+    },
+
+
+    /* 修改操作 */
+    async updateStu () {
+      try {
+        let res = await axios.post(
+          'http://localhost:8080/DormSystem/user/updateStu',
+          qs.stringify({
+            userId: this.datalist.userId,
+            username: this.datalist.username,
+            password: this.datalist.password,
+            sex: this.datalist.sex,
+            dorno: this.datalist.dorno,
+            phone: this.datalist.phone
+          })
+        )
+        this.dialogVisible = false
+        this.Data = []
+        this.$message({
+          message: res.data.Msg,
+          type: 'success'
+        })
+        this.Data.splice(1)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+
+
     /* 删除操作 */
     deleteIcon (index, row) {
       console.log(row.userId)
