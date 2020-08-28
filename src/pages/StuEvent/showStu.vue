@@ -51,13 +51,15 @@
       <template slot-scope="scope">
         <el-button-group>
           <el-button type="primary" @click="editStu(scope.row)" icon="el-icon-edit" ></el-button>
-          <el-button type="primary" icon="el-icon-circle-plus-outline" ></el-button>
-          <el-button type="danger" @click="deleteIcon(scope.$index, scope.row)" icon="el-icon-delete" ></el-button>
+          <el-button type="danger" @click="deleteStu(scope.$index, scope.row)" icon="el-icon-delete" ></el-button>
         </el-button-group>
       </template>
     </el-table-column>
   </el-table>
   </el-card>
+  <div class="d1">
+    <el-button type="primary" @click="add" icon="el-icon-circle-plus-outline" size="mini">添加</el-button>
+  </div>
   <div class="tabListPage">
     <el-pagination @size-change="handleSizeChange" 
                   @current-change="handleCurrentChange" 
@@ -65,7 +67,7 @@
                   :page-sizes="pageSizes" 
                   :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
                   :total="totalCount">
-      </el-pagination>    
+      </el-pagination>
   </div>
 
   <el-dialog
@@ -96,7 +98,7 @@
       </el-form>
       
       <span slot="footer" class="dialog-footer">
-        <el-button type="success" @click="updateStu()">提交</el-button>
+        <el-button type="success" @click="updateStu ()">提交</el-button>
         <el-button type="primary" @click="dialogVisible = false">取消</el-button>
       </span>
     </el-dialog>
@@ -129,18 +131,7 @@ export default {
     }
   },
   mounted: function () {
-    const _that = this
-    /* 端口号需要改变 */
-    this.$axios.post('http://localhost:8080/DormSystem/user/showStu', this.$qs.stringify(this.ruleForm)).then(res => {
-      /* 模拟服务器响应 */
-      if (res.data.code === 200) {
-        console.log(res.data.data)
-        this.Data = res.data.data 
-        this.totalCount = res.data.data.length
-      } else {
-        console.log(res.data.msg)
-      }
-    })
+    this.showStu()
   },
   methods: {
 
@@ -159,6 +150,22 @@ export default {
     },
 
 
+    showStu () {
+      const _that = this
+      /* 端口号需要改变 */
+      this.$axios.post('http://localhost:8080/DormSystem/user/showStu', this.$qs.stringify(this.ruleForm)).then(res => {
+        /* 模拟服务器响应 */
+        if (res.data.code === 200) {
+          console.log(res.data.data)
+          this.Data = res.data.data 
+          this.totalCount = res.data.data.length
+        } else {
+          console.log(res.data.msg)
+        }
+      })
+    },
+
+    
     handleClose (done) {
       done()
     },
@@ -186,18 +193,50 @@ export default {
         this.dialogVisible = false
         this.Data = []
         this.$message({
-          message: res.data.Msg,
+          message: '修改成功!',
           type: 'success'
         })
-        this.Data.splice(1)
+        this.showStu()
       } catch (e) {
         console.log(e)
       }
     },
-
+    
+    /* 添加操作 */
+    add (row) {
+      this.datalist = row
+      this.dialogVisible = true
+      this.addFlag = true
+    },
+    // 弹窗确定
+    async submitUser (datalist) {
+      if (this.addFlag === 'flase') {
+        
+      } else if (this.addFlag === 'true') {
+        this.Data.splice(0, 0, this.datalist)
+        this.iconFormVisible = false
+        let res = await axios.post(
+          'http://localhost:8080/DormSystem/user/saveUser',
+          qs.stringify({
+            userId: this.datalist.userId,
+            username: this.datalist.username,
+            password: this.datalist.password,
+            sex: this.datalist.sex,
+            dorno: this.datalist.dorno,
+            phone: this.datalist.phone
+          })
+        )
+        this.dialogVisible = false
+        this.userInfo = {}
+        this.$message({
+          message: res.data.Msg,
+          type: 'success'
+        })
+      }
+    },
 
     /* 删除操作 */
-    deleteIcon (index, row) {
+    deleteStu (index, row) {
       console.log(row.userId)
       this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -215,7 +254,6 @@ export default {
             console.log(res.data.msg)
           }
         })
-
         this.$message({
           type: 'success',
           message: '删除成功!'
@@ -233,4 +271,12 @@ export default {
 }
 </script>
 <style scoped>
+.tabListPage{
+  margin-top: 20px;
+  margin-left: 300px;
+}
+.d1{
+  margin-top: 20px;
+  margin-left: 1110px;
+}
 </style>

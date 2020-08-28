@@ -5,6 +5,7 @@
     <el-container>
       <el-header>
         <img src="../assets/logo.png" />
+        <span></span>
       </el-header>
       <el-main>
         <el-form
@@ -116,8 +117,8 @@ img {
   text-align: center;
   line-height: 200px;
 }
-
-/* .el-main {
+/*
+ .el-main {
   background-color: #e9eef3;
   color: #333;
   text-align: center;

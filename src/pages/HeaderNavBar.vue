@@ -1,5 +1,6 @@
 <template>
   <div>
+    <img src="" alt="">
     <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -19,7 +20,11 @@
         <el-menu-item index="2-2">账户信息</el-menu-item>
       </el-submenu>
     </el-menu>
+    <div class="d1">
+      <img src="../assets/guidian.png" alt="">
+    </div>
   </div>
+  
 </template>
 <script>
 export default {
@@ -37,4 +42,8 @@ export default {
 }
 </script>
 <style scoped>
+.d1{
+  background: url("../assets/bg-top.png");
+  margin-bottom: 5px;
+}
 </style>
