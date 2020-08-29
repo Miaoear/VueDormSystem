@@ -1,10 +1,8 @@
 <template>
-  <div>
-    技术栈：
-    vue<br>
-    vue-router<br>
-    基于路由的配置的导航<br>
-    基于路由配置的面包屑
+  <div class="home">
+    <br>
+    欢迎来到<br>
+    宿舍管理系统<br>
   </div>
 </template>
 
@@ -15,5 +13,7 @@ export default {
 </script>
 
 <style scoped>
-
+.home{
+  text-align: center;
+}
 </style>

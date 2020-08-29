@@ -57,9 +57,11 @@
     </el-table-column>
   </el-table>
   </el-card>
+  
   <div class="d1">
-    <el-button type="primary" @click="add" icon="el-icon-circle-plus-outline" size="mini">添加</el-button>
+    <el-button type="primary" @click="addStu" icon="el-icon-circle-plus-outline" size="mini">添加</el-button>
   </div>
+
   <div class="tabListPage">
     <el-pagination @size-change="handleSizeChange" 
                   @current-change="handleCurrentChange" 
@@ -71,28 +73,31 @@
   </div>
 
   <el-dialog
-    :title="addFlag?'新增学生列表':'修改学生列表'"
+    :title="updateFlag?'修改学生列表':'新增学生列表'"
     style="text-align:left !important"
     :visible.sync="dialogVisible"
     :before-close="handleClose"
     >
       <el-form ref="form" :model="datalist" label-width="80px">
-        <el-form-item label="学生ID" style="width:300px">
+        <template v-if: title="修改学生列表">
+        <el-form-item label="学生ID" style="width:300px" >
           <el-input v-model="datalist.userId" :disabled="true" placeholder="请输入学号"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" style="width:280px">
-          <el-input v-model="datalist.username" placeholder="请输入姓名"></el-input>
+        </template>
+        <el-form-item label="姓名" style="width:300px">
+          <el-input v-model="datalist.userId" placeholder="请输入姓名"></el-input>
         </el-form-item>
-        <el-form-item label="密码" style="width:230px">
+        <el-form-item label="密码" style="width:300px">
           <el-input v-model="datalist.password" placeholder="请输入密码"></el-input>
         </el-form-item>
-        <el-form-item label="性别" style="width:190px">
-          <el-input v-model="datalist.sex" placeholder="请输入性别"></el-input>
+        <el-form-item label="性别" style="width:300px">
+          <el-radio v-model="datalist.sex" label="男">男</el-radio>
+          <el-radio v-model="datalist.sex" label="女">女</el-radio>
         </el-form-item>
-        <el-form-item label="宿舍号" style="width:190px">
+        <el-form-item label="宿舍号" style="width:300px">
           <el-input v-model="datalist.dorno" placeholder="请输入宿舍号"></el-input>
         </el-form-item>
-        <el-form-item label="电话" style="width:190px">
+        <el-form-item label="电话" style="width:300px">
           <el-input v-model="datalist.phone" placeholder="请输入电话号码"></el-input>
         </el-form-item>
       </el-form>
@@ -102,6 +107,7 @@
         <el-button type="primary" @click="dialogVisible = false">取消</el-button>
       </span>
     </el-dialog>
+
 
 
   </div>
@@ -126,8 +132,7 @@ export default {
       PageSize: 3,
 
       dialogVisible: false,
-      addFlag: true
-
+      updateFlag: true
     }
   },
   mounted: function () {
@@ -172,7 +177,7 @@ export default {
     editStu (row) {
       this.datalist = row
       this.dialogVisible = true
-      this.addFlag = false
+      this.updateFlag = true
     },
 
 
@@ -203,37 +208,12 @@ export default {
     },
     
     /* 添加操作 */
-    add (row) {
+    addStu (row) {
       this.datalist = row
       this.dialogVisible = true
-      this.addFlag = true
+      this.updateFlag = false
     },
-    // 弹窗确定
-    async submitUser (datalist) {
-      if (this.addFlag === 'flase') {
-        
-      } else if (this.addFlag === 'true') {
-        this.Data.splice(0, 0, this.datalist)
-        this.iconFormVisible = false
-        let res = await axios.post(
-          'http://localhost:8080/DormSystem/user/saveUser',
-          qs.stringify({
-            userId: this.datalist.userId,
-            username: this.datalist.username,
-            password: this.datalist.password,
-            sex: this.datalist.sex,
-            dorno: this.datalist.dorno,
-            phone: this.datalist.phone
-          })
-        )
-        this.dialogVisible = false
-        this.userInfo = {}
-        this.$message({
-          message: res.data.Msg,
-          type: 'success'
-        })
-      }
-    },
+
 
     /* 删除操作 */
     deleteStu (index, row) {

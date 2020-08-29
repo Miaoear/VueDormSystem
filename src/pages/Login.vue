@@ -30,7 +30,6 @@
     </el-container>
   </div>
 
-  <!-- 气泡li -->
   <ul>
     <li></li>
     <li></li>
@@ -80,6 +79,10 @@ export default {
               _that.$router.push('/index')
             } else {
               console.log(res.data.msg)
+              this.$message({
+                type: 'error',
+                message: '登录失败!'
+              })
             }
           })
         } else {
@@ -98,6 +101,18 @@ export default {
 <style scoped>
 img {
   height: 100%;
+  width: 5%;
+  border-radius: 0%;
+  text-align: center;
+  
+  height: 60px;
+    width: 60px;
+    border:1px solid rgb(150, 189, 247);
+    border-radius: 50%;
+    padding: 3px;
+    box-shadow: 0 0 3px rgb(66, 83, 235);
+    position: relative;
+    left: 20px;
 }
 .demo-ruleForm {
   width: 300px;

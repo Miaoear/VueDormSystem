@@ -1,6 +1,6 @@
 <template>
   <div>
-    Create
+    个人中心
   </div>
 </template>
 

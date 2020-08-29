@@ -29,80 +29,6 @@ export default new Router({
       redirect: '/main',
       children: [
         {
-          path: '/main',
-          /* meta的name主要用来做面包屑 */
-          meta: {
-            name: '首页'
-          },
-          component: MainContent,
-          children: [
-            {
-              path: '',
-              component: Home
-            }
-          ]
-        },
-        {
-          path: '/event',
-          meta: {
-            name: '活动'
-          },
-          component: MainContent,
-          children: [
-            {
-              path: 'create',
-              meta: {
-                name: '创建'
-              },
-              component: Create
-            },
-            {
-              path: 'list',
-              meta: {
-                name: '管理'
-              },
-              component: List
-            }
-          ]
-        }
-      ]
-    },
-
-
-
-
-    {
-      path: '/index',
-      component: Index,
-      redirect: '/main',
-      children: [
-        {
-          path: '/showstu',
-          meta: {
-            name: '账户'
-          },
-          component: MainContent,
-          children: [
-            {
-              path: 'zhcz',
-              meta: {
-                name: '账户充值'
-              },
-              component: showStu
-            }
-          ]
-        }
-      ] 
-    },
-
-
-
-    {
-      path: '/index',
-      component: Index,
-      redirect: '/main',
-      children: [
-        {
           path: '/grzx',
           meta: {
             name: '个人中心'
@@ -174,9 +100,87 @@ export default new Router({
           ]
         }
       ] 
-    }
+    },
+    
     
 
+
+
+
+
+
+    
+    {
+      path: '/index',
+      component: Index,
+      redirect: '/main',
+      children: [
+        {
+          path: '/main',
+          /* meta的name主要用来做面包屑 */
+          meta: {
+            name: '首页'
+          },
+          component: MainContent,
+          children: [
+            {
+              path: '',
+              component: Home
+            }
+          ]
+        },
+        {
+          path: '/event',
+          meta: {
+            name: '活动'
+          },
+          component: MainContent,
+          children: [
+            {
+              path: 'create',
+              meta: {
+                name: '创建'
+              },
+              component: Create
+            },
+            {
+              path: 'list',
+              meta: {
+                name: '管理'
+              },
+              component: List
+            }
+          ]
+        }
+      ]
+    },
+
+
+
+
+    {
+      path: '/index',
+      component: Index,
+      redirect: '/main',
+      children: [
+        {
+          path: '/showstu',
+          meta: {
+            name: '账户'
+          },
+          component: MainContent,
+          children: [
+            {
+              path: 'zhcz',
+              meta: {
+                name: '账户充值'
+              },
+              component: showStu
+            }
+          ]
+        }
+      ] 
+    }
 
 
   ]

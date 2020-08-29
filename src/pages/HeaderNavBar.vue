@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <img src="" alt="">
+  <div class="d1">
     <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -19,12 +18,9 @@
         <el-menu-item index="/xsgl/xslb">账户充值</el-menu-item>
         <el-menu-item index="2-2">账户信息</el-menu-item>
       </el-submenu>
+      <el-button type="primary" @click="logout" style="float:right">退出</el-button>
     </el-menu>
-    <div class="d1">
-      <img src="../assets/guidian.png" alt="">
-    </div>
   </div>
-  
 </template>
 <script>
 export default {
@@ -37,13 +33,22 @@ export default {
   methods: {
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
+    },
+    logout () {
+      window.sessionStorage.clear()
+      this.$router.push('/')
     }
   }
 }
 </script>
 <style scoped>
-.d1{
-  background: url("../assets/bg-top.png");
+.el-menu-demo{
+  height: 60px;
+  background: 
+  url("../assets/bg-top.png") no-repeat;  
   margin-bottom: 5px;
+}
+img{
+  border-radius: 0%;
 }
 </style>

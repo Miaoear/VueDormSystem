@@ -5,9 +5,9 @@
       Props:defaultProps
       router
     >
-      <el-menu class="sidebar-el-menu" background-color="#324157"
-      text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
-        <!-- <el-button @click="getMenu()">lianjie</el-button> -->
+      <el-menu class="sidebar-el-menu" background-color="white"  
+      text-color="black" active-text-color="blue" unique-opened router> <!-- #324157 #bfcbd9 #20a0ff -->
+        <!-- <el-button @click="getMenu()">lianjie</el-button>  -->
 
         <template v-for="item in Data">
             <el-submenu v-if="item.childMenus && item.childMenus.length > 0" :index="item.menuid" :key="item.menuid">

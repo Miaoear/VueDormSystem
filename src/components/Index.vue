@@ -45,10 +45,12 @@ export default {
     margin-top: 10px;
   }
   .head{
+    height: 50px;
     margin-left: 100px;
     margin-top: -40px;
     text-align: center;
     float: left;
+    font-family:"SimHei"
   }
   .avatar_box{
     height: 60px;
@@ -60,10 +62,11 @@ export default {
     position: relative;
     left: 20px;
   }
-    img{
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background-color: #eee;
-    }
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #eee;
+  }
+  
 </style>
