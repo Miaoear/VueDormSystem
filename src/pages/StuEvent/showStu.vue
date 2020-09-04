@@ -57,7 +57,6 @@
     </el-table-column>
   </el-table>
   </el-card>
-  
   <div class="d1">
     <el-button type="primary" @click="addStu" icon="el-icon-circle-plus-outline" size="mini">添加</el-button>
   </div>
@@ -81,7 +80,7 @@
       <el-form ref="form" :model="datalist" label-width="80px">
         <template v-if: title="修改学生列表">
         <el-form-item label="学生ID" style="width:300px" >
-          <el-input v-model="datalist.userId" :disabled="true" placeholder="请输入学号"></el-input>
+          <el-input v-model="datalist.userId" disabled="true" placeholder="请输入学号"></el-input>
         </el-form-item>
         </template>
         <el-form-item label="姓名" style="width:300px">
@@ -184,24 +183,45 @@ export default {
     /* 修改操作 */
     async updateStu () {
       try {
-        let res = await axios.post(
-          'http://localhost:8080/DormSystem/user/updateStu',
-          qs.stringify({
-            userId: this.datalist.userId,
-            username: this.datalist.username,
-            password: this.datalist.password,
-            sex: this.datalist.sex,
-            dorno: this.datalist.dorno,
-            phone: this.datalist.phone
+        if (this.updateFlag === true) {
+          let res = await axios.post(
+            'http://localhost:8080/DormSystem/user/updateStu',
+            qs.stringify({
+              userId: this.datalist.userId,
+              username: this.datalist.username,
+              password: this.datalist.password,
+              sex: this.datalist.sex,
+              dorno: this.datalist.dorno,
+              phone: this.datalist.phone
+            })
+          )
+          this.dialogVisible = false
+          this.Data = []
+          this.$message({
+            message: '添加成功!',
+            type: 'success'
           })
-        )
-        this.dialogVisible = false
-        this.Data = []
-        this.$message({
-          message: '修改成功!',
-          type: 'success'
-        })
-        this.showStu()
+          this.showStu()
+        } else {
+          let res = await axios.post(
+            'http://localhost:8080/DormSystem/user/saveUser',
+            qs.stringify({
+              userId: this.datalist.userId,
+              username: this.datalist.username,
+              password: this.datalist.password,
+              sex: this.datalist.sex,
+              dorno: this.datalist.dorno,
+              phone: this.datalist.phone
+            })
+          )
+          this.dialogVisible = false
+          this.Data = []
+          this.$message({
+            message: '修改成功!',
+            type: 'success'
+          })
+          this.showStu()
+        }
       } catch (e) {
         console.log(e)
       }
